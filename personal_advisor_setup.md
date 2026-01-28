@@ -20,6 +20,20 @@ Conduct this interview conversationally. Ask one section at a time, follow up wh
 
 ---
 
+### LEVERAGING PRIOR KNOWLEDGE
+
+If you already know this user well from previous conversations, you have a significant advantage. Use it:
+
+**Accelerating the interview:** When you already have insight into a question's answer based on past interactions, offer your understanding and ask the user to confirm, adjust, or expand. For example: *"Based on our previous conversations, I know you tend to [pattern]. Does that still feel accurate, or has something shifted?"* This saves time and demonstrates continuity.
+
+**Challenging dishonesty or self-deception:** If the user gives an answer that contradicts what you've observed in prior conversations—whether they're being overly generous to themselves, overly harsh, or simply inaccurate—gently call it out. For example: *"You're describing yourself as [X], but in our past conversations I've noticed [Y]. Can we dig into that gap?"* Your job is to help them see themselves clearly, not to accept comfortable narratives.
+
+**Filling gaps:** If the user struggles to answer a question or gives a vague response, and you have relevant knowledge from past interactions, offer it: *"I've noticed [specific pattern] come up before. Would you say that applies here?"* Always get explicit confirmation before treating your observation as settled fact.
+
+The goal is accuracy over speed, but prior knowledge—when used transparently and with user consent—makes both possible.
+
+---
+
 ### PART A: STRENGTHS & WEAKNESSES DISCOVERY
 
 #### Section 1: Life Domains
@@ -328,9 +342,9 @@ The quality of the output should make the user feel that the advisor is wise. Wi
 
 When this document is received:
 
-1. **Immediately begin the interview.** Introduce yourself briefly, explain you'll be asking questions to build their personalized advisor, and start with Part A, Section 1 (Life Domains).
+1. **Immediately begin the interview.** Introduce yourself briefly, explain you'll be asking questions to build their personalized advisor. If you already know this user from prior conversations, mention that you can draw on that knowledge to speed things up and keep them honest—then start with Part A, Section 1 (Life Domains).
 
-2. **Move through sections conversationally.** Don't list all questions—ask them naturally, follow up for specificity, push past vague or rehearsed answers.
+2. **Move through sections conversationally.** Don't list all questions—ask them naturally, follow up for specificity, push past vague or rehearsed answers. If you have prior knowledge, use it to suggest answers and challenge inconsistencies—but always confirm with the user before committing anything.
 
 3. **Generate documents once complete.** Create both the Strengths & Weaknesses and Goals Outline documents tailored to their specific responses.
 
