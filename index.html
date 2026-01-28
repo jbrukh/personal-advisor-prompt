@@ -3,130 +3,470 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal AI Advisor Setup</title>
+    <title>Personal Advisor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-            color: #333;
+        :root {
+            --parchment: #f6f1e7;
+            --parchment-dark: #e8e0d0;
+            --ink: #2c2416;
+            --ink-light: #4a3f2f;
+            --ink-muted: #7a6f5f;
+            --gold: #b8860b;
+            --gold-light: #daa520;
+            --gold-muted: rgba(184, 134, 11, 0.15);
+            --shadow: rgba(44, 36, 22, 0.08);
         }
-        .header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 12px;
-            margin-bottom: 30px;
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .header h1 { margin: 0 0 10px 0; font-size: 2em; }
-        .header p { margin: 0; opacity: 0.9; }
-        .copy-section {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .copy-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
+
+        html {
             font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
+            scroll-behavior: smooth;
         }
-        .copy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+
+        body {
+            font-family: 'Crimson Text', Georgia, serif;
+            background: var(--parchment);
+            color: var(--ink);
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
         }
-        .copy-btn.copied {
-            background: #22c55e;
+
+        /* Subtle paper texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
         }
-        .instructions {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px 100px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 80px 0 60px;
+            border-bottom: 1px solid var(--parchment-dark);
+            margin-bottom: 50px;
+        }
+
+        .symbol {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            opacity: 0.8;
+            letter-spacing: 0.5em;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 400;
+            font-size: 3rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink);
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .instructions h2 { margin-top: 0; color: #667eea; }
-        .instructions ol { padding-left: 20px; }
-        .instructions li { margin-bottom: 12px; line-height: 1.6; }
-        .prompt-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+        .subtitle {
+            font-style: italic;
+            color: var(--ink-muted);
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* Instructions */
+        .instructions {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--parchment-dark);
+            margin-bottom: 50px;
+        }
+
+        .instructions p {
+            color: var(--ink-light);
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 400;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .step-text {
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+            letter-spacing: 0.05em;
+            text-transform: lowercase;
+        }
+
+        /* Copy Button */
+        .copy-section {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .copy-btn {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink);
+            background: transparent;
+            border: 1px solid var(--ink);
+            padding: 18px 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
             overflow: hidden;
         }
-        .prompt-header {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e9ecef;
+
+        .copy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold-muted);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--gold);
+            color: var(--ink);
+        }
+
+        .copy-btn:hover::before {
+            left: 0;
+        }
+
+        .copy-btn.copied {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .copy-hint {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            font-style: italic;
+        }
+
+        /* Content Section */
+        .content-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
         }
-        .prompt-header h3 { margin: 0; color: #495057; }
+
+        .content-header::before,
+        .content-header::after {
+            content: '';
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(90deg, transparent, var(--parchment-dark), transparent);
+        }
+
+        .content-header h2 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+        }
+
+        /* Markdown Content */
         .prompt-content {
-            padding: 20px;
-            max-height: 500px;
+            background: linear-gradient(135deg, #faf8f3 0%, #f4efe5 100%);
+            border: 1px solid var(--parchment-dark);
+            padding: 50px;
+            max-height: 70vh;
             overflow-y: auto;
-            white-space: pre-wrap;
-            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            background: #fafafa;
+            box-shadow:
+                0 2px 20px var(--shadow),
+                inset 0 1px 0 rgba(255,255,255,0.5);
         }
-        .github-link {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
+
+        .prompt-content::-webkit-scrollbar {
+            width: 8px;
         }
-        .github-link a {
-            color: #667eea;
-            text-decoration: none;
+
+        .prompt-content::-webkit-scrollbar-track {
+            background: var(--parchment-dark);
+        }
+
+        .prompt-content::-webkit-scrollbar-thumb {
+            background: var(--ink-muted);
+            border-radius: 4px;
+        }
+
+        .prompt-content::-webkit-scrollbar-thumb:hover {
+            background: var(--ink-light);
+        }
+
+        /* Markdown Styles */
+        .prompt-content h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 2rem;
             font-weight: 500;
+            margin: 0 0 30px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--parchment-dark);
+            letter-spacing: 0.02em;
+            text-transform: none;
         }
-        .github-link a:hover { text-decoration: underline; }
+
+        .prompt-content h2 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin: 40px 0 20px 0;
+            letter-spacing: 0.02em;
+        }
+
+        .prompt-content h3 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--ink-light);
+            margin: 30px 0 15px 0;
+        }
+
+        .prompt-content h4 {
+            font-family: 'Crimson Text', Georgia, serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink-light);
+            margin: 25px 0 12px 0;
+        }
+
+        .prompt-content p {
+            margin-bottom: 1.2em;
+            color: var(--ink-light);
+        }
+
+        .prompt-content strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .prompt-content em {
+            color: var(--ink-light);
+        }
+
+        .prompt-content ul,
+        .prompt-content ol {
+            margin: 0 0 1.5em 1.5em;
+            color: var(--ink-light);
+        }
+
+        .prompt-content li {
+            margin-bottom: 0.6em;
+        }
+
+        .prompt-content hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--parchment-dark), transparent);
+            margin: 40px 0;
+        }
+
+        .prompt-content code {
+            font-family: 'Crimson Text', Georgia, serif;
+            font-style: italic;
+            background: var(--gold-muted);
+            padding: 2px 6px;
+            font-size: 0.95em;
+        }
+
+        .prompt-content pre {
+            background: var(--ink);
+            color: var(--parchment);
+            padding: 25px;
+            overflow-x: auto;
+            margin: 25px 0;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border-left: 3px solid var(--gold);
+        }
+
+        .prompt-content pre code {
+            background: none;
+            padding: 0;
+            font-family: inherit;
+            font-style: normal;
+            color: inherit;
+        }
+
+        .prompt-content blockquote {
+            border-left: 2px solid var(--gold);
+            margin: 25px 0;
+            padding-left: 25px;
+            font-style: italic;
+            color: var(--ink-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--parchment-dark);
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--ink-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            html {
+                font-size: 16px;
+            }
+
+            .container {
+                padding: 40px 25px 80px;
+            }
+
+            header {
+                padding: 50px 0 40px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .steps {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .prompt-content {
+                padding: 30px 25px;
+            }
+
+            .copy-btn {
+                padding: 15px 35px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Fade in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header, .instructions, .copy-section, .content-section {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .instructions { animation-delay: 0.1s; }
+        .copy-section { animation-delay: 0.2s; }
+        .content-section { animation-delay: 0.3s; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Personal AI Advisor Setup</h1>
-        <p>Build your own personalized AI advisor in minutes</p>
-    </div>
+    <div class="container">
+        <header>
+            <div class="symbol">&#9670;</div>
+            <h1>Personal Advisor</h1>
+            <p class="subtitle">A guide to knowing yourself</p>
+        </header>
 
-    <div class="instructions">
-        <h2>How to Use</h2>
-        <ol>
-            <li><strong>Copy the prompt</strong> using the button below</li>
-            <li><strong>Paste it</strong> into your favorite LLM (Claude, ChatGPT, etc.)</li>
-            <li><strong>Answer the questions</strong> the AI asks you honestly</li>
-            <li><strong>Get your personalized documents</strong> and setup instructions</li>
-        </ol>
-    </div>
+        <section class="instructions">
+            <p>Copy this prompt into any AI assistant. Answer its questions honestly. Receive personalized documents that become your long-term advisor.</p>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-number">I</span>
+                    <span class="step-text">copy prompt</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">II</span>
+                    <span class="step-text">answer honestly</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">III</span>
+                    <span class="step-text">receive your advisor</span>
+                </div>
+            </div>
+        </section>
 
-    <div class="copy-section">
-        <button class="copy-btn" onclick="copyPrompt()">Copy Full Prompt to Clipboard</button>
-    </div>
+        <section class="copy-section">
+            <button class="copy-btn" onclick="copyPrompt()">Copy the Prompt</button>
+            <p class="copy-hint">Works with Claude, ChatGPT, and other AI assistants</p>
+        </section>
 
-    <div class="prompt-container">
-        <div class="prompt-header">
-            <h3>Prompt Preview</h3>
-        </div>
-        <div class="prompt-content" id="prompt-content">Loading...</div>
-    </div>
+        <section class="content-section">
+            <div class="content-header">
+                <h2>The Prompt</h2>
+            </div>
+            <div class="prompt-content" id="prompt-content">
+                <p style="color: var(--ink-muted); font-style: italic;">Loading...</p>
+            </div>
+        </section>
 
-    <div class="github-link">
-        <a href="https://github.com/jbrukh/personal-advisor-prompt" target="_blank">View on GitHub</a>
+        <footer>
+            <a href="https://github.com/jbrukh/personal-advisor-prompt" target="_blank">View on GitHub</a>
+        </footer>
     </div>
 
     <script>
@@ -136,26 +476,26 @@
             .then(response => response.text())
             .then(text => {
                 promptText = text;
-                document.getElementById('prompt-content').textContent = text;
+                document.getElementById('prompt-content').innerHTML = marked.parse(text);
             })
             .catch(err => {
-                document.getElementById('prompt-content').textContent = 'Error loading prompt. Please try refreshing.';
+                document.getElementById('prompt-content').innerHTML = '<p style="color: var(--ink-muted);">Unable to load prompt. Please refresh the page.</p>';
             });
 
         function copyPrompt() {
             const btn = document.querySelector('.copy-btn');
             navigator.clipboard.writeText(promptText).then(() => {
-                btn.textContent = 'Copied!';
+                btn.textContent = 'Copied';
                 btn.classList.add('copied');
                 setTimeout(() => {
-                    btn.textContent = 'Copy Full Prompt to Clipboard';
+                    btn.textContent = 'Copy the Prompt';
                     btn.classList.remove('copied');
-                }, 2000);
+                }, 2500);
             }).catch(err => {
-                btn.textContent = 'Copy failed - try selecting text manually';
+                btn.textContent = 'Select text below to copy';
                 setTimeout(() => {
-                    btn.textContent = 'Copy Full Prompt to Clipboard';
-                }, 2000);
+                    btn.textContent = 'Copy the Prompt';
+                }, 2500);
             });
         }
     </script>
