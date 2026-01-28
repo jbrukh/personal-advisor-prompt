@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Advisor</title>
+    <title>Jake's AI Advisor Prompt</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -357,6 +357,12 @@
             margin-top: 60px;
         }
 
+        footer .made-by {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+        }
+
         footer a {
             color: var(--ink-muted);
             text-decoration: none;
@@ -364,6 +370,12 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
             transition: color 0.3s ease;
+        }
+
+        footer .made-by a {
+            text-transform: none;
+            letter-spacing: 0;
+            font-size: 0.9rem;
         }
 
         footer a:hover {
@@ -428,8 +440,8 @@
     <div class="container">
         <header>
             <div class="symbol">&#9670;</div>
-            <h1>Personal Advisor</h1>
-            <p class="subtitle">A guide to knowing yourself</p>
+            <h1>Jake's AI Advisor Prompt</h1>
+            <p class="subtitle">An AI advisor for personal growth</p>
         </header>
 
         <section class="instructions">
@@ -445,7 +457,7 @@
                 </div>
                 <div class="step">
                     <span class="step-number">III</span>
-                    <span class="step-text">receive your advisor</span>
+                    <span class="step-text">receive your setup instructions</span>
                 </div>
             </div>
         </section>
@@ -465,6 +477,7 @@
         </section>
 
         <footer>
+            <p class="made-by">Made by <a href="https://x.com/jbrukh" target="_blank">@jbrukh</a></p>
             <a href="https://github.com/jbrukh/personal-advisor-prompt" target="_blank">View on GitHub</a>
         </footer>
     </div>
