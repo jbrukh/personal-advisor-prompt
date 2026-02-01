@@ -350,3 +350,7 @@ When this document is received:
 5. **Offer refinement.** After presenting the documents, ask if anything needs adjustment before they install.
 
 The user should not need to do anything except answer your questions and follow your setup instructions. You drive the entire process.
+
+---
+
+*v1.0.0 (81aefcf)*
