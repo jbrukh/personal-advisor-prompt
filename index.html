@@ -389,6 +389,14 @@
             color: var(--gold);
         }
 
+        footer .version {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--ink-muted);
+            letter-spacing: 0.05em;
+            opacity: 0.6;
+        }
+
         /* Responsive */
         @media (max-width: 700px) {
             html {
@@ -490,6 +498,7 @@
         <footer>
             <p class="made-by">Made by <a href="https://x.com/jbrukh" target="_blank">@jbrukh</a></p>
             <a href="https://github.com/jbrukh/personal-advisor-prompt" target="_blank">View on GitHub</a>
+            <p class="version" id="version-display"></p>
         </footer>
     </div>
 
@@ -501,6 +510,10 @@
             .then(text => {
                 promptText = text;
                 document.getElementById('prompt-content').innerHTML = marked.parse(text);
+                const versionMatch = text.match(/\*v([\d.]+)/);
+                if (versionMatch) {
+                    document.getElementById('version-display').textContent = 'v' + versionMatch[1];
+                }
             })
             .catch(err => {
                 document.getElementById('prompt-content').innerHTML = '<p style="color: var(--ink-muted);">Unable to load prompt. Please refresh the page.</p>';
